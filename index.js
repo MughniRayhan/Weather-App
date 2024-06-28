@@ -8,6 +8,8 @@ const cityName = document.querySelector(".city");
 const humidity = document.querySelector(".humidity");
 const windSpeed = document.querySelector(".wind");
 const weatherIcon = document.querySelector(".weather-icon");
+const weather = document.querySelector(".weather");
+const error = document.querySelector(".error");
 
 
 const apiKey = "0857e81c8a180e1ebc35fee07ca57b37";
@@ -16,6 +18,12 @@ const apiUrl =  "https://api.openweathermap.org/data/2.5/weather?&units=metric&q
 
 const checkWeather = async(city) =>{
     const response = await fetch(apiUrl + city + `&appid=${apiKey}`) ;
+
+if(response.status == 404){
+    error.classList.add("errorShow");
+}else{
+     
+    error.classList.remove("errorShow");
     const data = await response.json();
 
     console.log(data);
@@ -45,9 +53,12 @@ const checkWeather = async(city) =>{
     else if(data.weather[0].main == "Snow"){
         weatherIcon.src = "image/snow.png";
     }
-    
+    weather.classList.add("weatherShow");
 
 }
+}
 searchBtn.addEventListener("click" , ()=>{
+
     checkWeather(searchBox.value);
+    
 })
